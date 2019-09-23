@@ -5,8 +5,10 @@ Keyword：Python,Selenium,Pytest,Page Object
 
 ## structure：
 - base
+    .base_browser
+    .base_webpage
     
-    wrapper web element,methods and base page.
+        Wrapper web element,methods and base page.
     
 - config
    
