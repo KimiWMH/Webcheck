@@ -5,6 +5,19 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException
+
+# Selenium Locator map like selenium.webdriver.common.by
+_LOCATOR_MAP = {'css': By.CSS_SELECTOR,
+                'id_': By.ID,
+                'name': By.NAME,
+                'xpath': By.XPATH,
+                'link_text': By.LINK_TEXT,
+                'partial_link_text': By.PARTIAL_LINK_TEXT,
+                'tag_name': By.TAG_NAME,
+                'class_name': By.CLASS_NAME,
+                }
+        
 
 class base_page(broswer_engine):
     """
@@ -13,23 +26,60 @@ class base_page(broswer_engine):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+    def __enter__(self):      
+        self.open_browser()
+        return self 
 
-    def get_element(self,loc,wait_time = 60):
-        WebDriverWait(self.driver,wait_time).until(EC.visibility_of(self.driver.find_element_by_xpath(loc)))
-        return self.driver.find_element_by_xpath(loc)
+    def __exit__(self,*args):
+        self.close_browser()
+
+    def get_element(self,loc,Multi = False,wait_time =120):
+        """Get the element/elements from web
+         
+        :param Multi:  `bool`
+            return elements or element
+        :param loc: `dict`
+            format: {'xpath':'//*'}
+            support the locator in _LOCATOR_MAP
+        :param wait_time: `int`
+            Webdriver will wait for "wait_time" until the element is visible
+    
+        """
+        if loc is None:
+            raise ValueError("Locator missing")
+        if len(loc) > 1:
+            raise ValueError("More than one locator are given")
+
+        loc_iter = iter(loc.items())
+        k,v = next(loc_iter)
+        self.locator = (_LOCATOR_MAP[k], v)
+
+        if Multi:  
+            try:
+                WebDriverWait(self.driver,wait_time).until(EC.visibility_of(self.driver.find_elements(*self.locator)))
+                return self.driver.find_elements(*self.locator)
+            except NoSuchElementException as e:
+                raise ValueError('Invaild locator') from e          
+        else:
+            try:
+                WebDriverWait(self.driver,wait_time).until(EC.visibility_of(self.driver.find_element(*self.locator)))
+                return self.driver.find_element(*self.locator)
+            except NoSuchElementException as e:
+                raise ValueError('Invaild locator') from e  
 
     def click_element(self,locator,wait_seconds = 2):
         """
         click the element then wait 
         """
         result_flag = False
+        link =  self.get_element(locator)
         try:
-            link =  self.get_element(locator)
+            
             if link is not None:
                 link.click()
                 self.wait(wait_seconds)
         except Exception as e:
-            print("click event error")
+            print("click event error") 
         else:
             result_flag =True 
         finally:  
@@ -41,7 +91,7 @@ class base_page(broswer_engine):
         """
         text_field = None
         try:
-            text_field = self.get_element(locator)            
+            text_field = self.get_element(locator)
             if text_field is not None and clear_flag is True:
                 try:
                     text_field.clear()
@@ -72,6 +122,7 @@ class base_page(broswer_engine):
             time.sleep(wait_seconds)
         
     def smart_wait(self,wait_seconds,locator):
+
         """
         Performs an explicit wait for a particular element
         """
@@ -84,3 +135,6 @@ class base_page(broswer_engine):
             result_flag =True 
         finally:  
             return result_flag
+
+    def loc_split(self,raw_loc):
+        return {raw_loc.split(",")[0].strip('"'):raw_loc.split(",")[1].strip('"')}
