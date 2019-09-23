@@ -5,20 +5,36 @@ Keyword：Python,Selenium,Pytest,Page Object
 
 ## structure：
 - base
+    
     .base_browser
+    
     .base_webpage
     
         Wrapper web element,methods and base page.
     
 - config
    
-   store config files
+   . config.ini
+   
+   . locator.ini 
+   
+           Store config files
    
 - drivers
     
-    store broswer drivers
+    .chromedriver
+    
+        store broswer drivers
     
 - pageobjects
+
+    .baidu_page.py
+    
+    .guide_page.py
+    
+    .product_page.py
+    
+        Page Objects
     
 - testsuit
     
