@@ -1,41 +1,45 @@
 # Webcheck #
 *Automation Script for web test*
 
-Keyword：Python,Selenium,Pytest,Page Object
+Keyword：`Python` `Selenium` `Pytest` `Page Object`
 
-## structure：
-- base
+## Environment Required
+
+
+
+## Structure：
+├── base
     
-    .base_browser
+│   ├──base_browser
     
-    .base_webpage
+│   ├──base_webpage
     
         Wrapper web element,methods and base page.
     
-- config
+├── config
    
-   . config.ini
+│   ├──config.ini
    
-   . locator.ini 
+│   ├──locator.ini 
    
            Store config files
    
-- drivers
+├── drivers
     
-    .chromedriver
+│   ├──chromedriver
     
         store broswer drivers
     
-- pageobjects
+├── pageobjects
 
-    .baidu_page.py
+│   ├──baidu_page.py
     
-    .guide_page.py
+│   ├──guide_page.py
     
-    .product_page.py
+│   ├──product_page.py
     
         Page Objects
     
-- testsuit
+├──  testsuit
     
     test case for automation 
