@@ -27,7 +27,7 @@ class broswer_engine():
         # read the browser type,url from config.ini file    
         config = ConfigParser()
         dir = os.path.abspath('.') 
-        file_path = str(dir) + '\config\config.ini'
+        file_path = str(dir) + r'\config\browser_config.ini'
         chrome_driver_path = str(dir) + '\drivers\chromedriver.exe'
         config.read(file_path)
         
