@@ -9,13 +9,15 @@ class test_page(product_page,guide_page):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
 
-class Test_Web_Data():
 
-    @pytest.mark.skip(reason="Test Pytest Structure")
-    @pytest.mark.parametrize("product_name",["M479"])
-    def test_case(self,product_name):
+
+class Test_Web_Data():
+    #@pytest.mark.skip(reason="Test Pytest Structure")
+    @pytest.mark.parametrize("product_name","os_platform","os_version",["M479","SAP","SAP"])
+    def test_case(self,product_name,os_platform,os_version):
         with test_page() as tp:
-            tp.input_product_name(product_name)
+            tp.input_product_name("M479")
             tp.click_search_button()
             tp.click_open_close_all_button()
-           # tp.os_switch()
+            tp.os_switch(os_platform,os_version)
+    

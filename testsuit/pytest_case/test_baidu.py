@@ -10,7 +10,7 @@ class test_page(baidu_page):
         super().__init__(*args, **kwargs)
 
 class Test_Web_Data():
-
+    @pytest.mark.skip(reason="Test Pytest Structure")
     @pytest.mark.parametrize("product_name",["M479"])
     def test_case(self,product_name):
         with baidu_page() as test_page:

@@ -21,3 +21,6 @@ def get_test_data(file_name=r'checklist.csv'):
         test_data.append(row_data)
 
     return test_data
+
+# c = get_test_data()
+# p.pprint(c)

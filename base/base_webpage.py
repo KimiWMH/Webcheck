@@ -26,6 +26,7 @@ class base_page(broswer_engine):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+   
     def __enter__(self):      
         self.open_browser()
         return self 
@@ -33,10 +34,10 @@ class base_page(broswer_engine):
     def __exit__(self,*args):
         self.close_browser()
 
-    def get_element(self,loc,element_driver = False,Multi = False,wait_time =120):
+    def get_element(self,loc,element_driver = False,multi = False,wait_time =30):
         """Get the element/elements from web
          
-        :param Multi:  `bool`
+        :param multi:  `bool`
             return elements or element
         :param loc: `dict`
             format: {'xpath':'//*'}
@@ -45,10 +46,6 @@ class base_page(broswer_engine):
             Webdriver will wait for "wait_time" until the element is visible
     
         """
-        if loc is None:
-            raise ValueError("Locator missing")
-        if len(loc) > 1:
-            raise ValueError("More than one locator are given")
 
         if element_driver:
             _driver = element_driver
@@ -58,10 +55,10 @@ class base_page(broswer_engine):
         loc_iter = iter(loc.items())
         k,v = next(loc_iter)
         self.locator = (_LOCATOR_MAP[k], v)
-        
-        if Multi:  
+        print(self.locator)
+        if multi:  
             try:
-                WebDriverWait(_driver ,wait_time).until(EC.visibility_of(_driver.find_elements(*self.locator)))
+                WebDriverWait(_driver ,wait_time).until(EC.visibility_of(_driver.find_elements(*self.locator)[0]))
                 return _driver .find_elements(*self.locator)
             except NoSuchElementException as e:
                 raise ValueError('Invaild locator') from e          
@@ -77,7 +74,6 @@ class base_page(broswer_engine):
         click the element then wait 
         """
         result_flag = False
-        print(locator)
         link =  self.get_element(locator)
         try:
             
