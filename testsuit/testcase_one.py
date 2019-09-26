@@ -12,5 +12,5 @@ with test_page() as tp:
     tp.input_product_name("M479")
     tp.click_search_button()
     tp.click_open_close_all_button()
-    tp.os_switch()
+    tp.os_switch("SAP","SAP")
     tp.wait(20)

@@ -33,7 +33,7 @@ class base_page(broswer_engine):
     def __exit__(self,*args):
         self.close_browser()
 
-    def get_element(self,loc,Multi = False,wait_time =120):
+    def get_element(self,loc,element_driver = False,Multi = False,wait_time =120):
         """Get the element/elements from web
          
         :param Multi:  `bool`
@@ -50,20 +50,25 @@ class base_page(broswer_engine):
         if len(loc) > 1:
             raise ValueError("More than one locator are given")
 
+        if element_driver:
+            _driver = element_driver
+        else :
+            _driver = self.driver
+            
         loc_iter = iter(loc.items())
         k,v = next(loc_iter)
         self.locator = (_LOCATOR_MAP[k], v)
-
+        
         if Multi:  
             try:
-                WebDriverWait(self.driver,wait_time).until(EC.visibility_of(self.driver.find_elements(*self.locator)))
-                return self.driver.find_elements(*self.locator)
+                WebDriverWait(_driver ,wait_time).until(EC.visibility_of(_driver.find_elements(*self.locator)))
+                return _driver .find_elements(*self.locator)
             except NoSuchElementException as e:
                 raise ValueError('Invaild locator') from e          
         else:
             try:
-                WebDriverWait(self.driver,wait_time).until(EC.visibility_of(self.driver.find_element(*self.locator)))
-                return self.driver.find_element(*self.locator)
+                WebDriverWait(_driver,wait_time).until(EC.visibility_of(_driver.find_element(*self.locator)))
+                return _driver .find_element(*self.locator)
             except NoSuchElementException as e:
                 raise ValueError('Invaild locator') from e  
 
@@ -72,6 +77,7 @@ class base_page(broswer_engine):
         click the element then wait 
         """
         result_flag = False
+        print(locator)
         link =  self.get_element(locator)
         try:
             

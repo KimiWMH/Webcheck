@@ -18,18 +18,35 @@ class product_page(base_page):
         config.read(file_path)
 
         self.open_close_toggle_tag = config.get("elementLocator", "open_close_toggle_tag")
-        self.os_switch_link = config.get("elementLocator", "os_switch_link")    
+        self.os_switch_link = config.get("elementLocator", "os_switch_link") 
+
+        self.os_platform_head = config.get("elementLocator", "os_platform_head")
         self.os_platform_list = config.get("elementLocator", "os_platform_list")
-        self.os_to_select = config.get("elementLocator", "os_to_select")
+        self.os_platform_list_value = config.get("elementLocator", "os_platform_list_value")
+
+        self.os_version_head = config.get("elementLocator", "os_version_head")
+        self.os_version_list = config.get("elementLocator", "os_version_list")
+        self.os_version_list_value = config.get("elementLocator", "os_version_list_value")
+
+        self.os_submit_button = config.get("elementLocator", "os_submit_button")
 
     def click_open_close_all_button(self):
         locator_open_close_toggle_tag = self.loc_split(self.open_close_toggle_tag)
         assert self.click_element(locator_open_close_toggle_tag)
     
-    def os_switch(self):
-        locator_os_switch_link  = self.loc_split(self.os_switch_link )
-        locator_os_platform_list = self.loc_split(self.os_platform_list)
-        locator_os_to_select= self.loc_split(self.os_to_select)
-        assert self.click_element(locator_os_switch_link)
-        assert self.click_element(locator_os_platform_list)
-        assert self.click_element(locator_os_to_select)
+    def os_switch(self,platform,version):
+        assert self.click_element(self.os_switch_link)
+        assert self.click_element(self.os_platform_head)
+
+        temp_platform_list = self.get_element(self.os_platform_list)
+        for i in self.get_element(self.os_platform_list_value,element_driver=temp_platform_list,Multi=True):
+            if i.text == platform:
+                assert self.click_element(i)
+
+
+        temp_version_list = self.get_element(self.os_version_list)
+        for i in self.get_element(self.os_version_list_value,element_driver=temp_version_list,Multi=True):
+            if i.text == version:
+                assert self.click_element(i)
+
+        assert self.click_element(self.os_submit_button)
