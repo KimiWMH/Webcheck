@@ -69,15 +69,18 @@ class base_page(broswer_engine):
             except NoSuchElementException as e:
                 raise ValueError('Invaild locator') from e  
 
-    def click_element(self,locator,wait_seconds = 2):
+    def click_element(self,locator,element = None,wait_seconds = 2):
         """
         click the element then wait 
         """
         result_flag = False
-        link =  self.get_element(locator)
+        if not element :
+            link =  self.get_element(locator)
+        else:
+            link = element
         try:
-            
             if link is not None:
+                self.driver.execute_script("arguments[0].scrollIntoView();", link)
                 link.click()
                 self.wait(wait_seconds)
         except Exception as e:

@@ -11,32 +11,24 @@ class product_page(base_page):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         config = ConfigParser()
         dir = os.path.abspath('.') 
         file_path = str(dir) + '\config\locator.ini'
         config.read(file_path)
-
         self.open_close_toggle_tag = config.get("elementLocator", "open_close_toggle_tag")
         self.os_switch_link = config.get("elementLocator", "os_switch_link") 
-
         self.os_platform_head = config.get("elementLocator", "os_platform_head")
         self.os_platform_list = config.get("elementLocator", "os_platform_list")
         self.os_platform_list_value = config.get("elementLocator", "os_platform_list_value")
-
         self.os_version_head = config.get("elementLocator", "os_version_head")
         self.os_version_list = config.get("elementLocator", "os_version_list")
         self.os_version_list_value = config.get("elementLocator", "os_version_list_value")
-
         self.os_submit_button = config.get("elementLocator", "os_submit_button")
 
-        self.sresult_panel = config.get("elementLocator", "sresult_panel")
-        
-
-        self.detail_driver_child= config.get("elementLocator", "detail_driver_child")
-        self.detail_driver_gchild= config.get("elementLocator", "detail_driver_gchild")
-        self.detail_driver_name= config.get("elementLocator", "detail_driver_name")
-
+        self.sresult_panel_name  = self.loc_split(config.get("elementLocator", "sresult_panel_name"))
+        self.sresult_panel_downloadlink  = self.loc_split(config.get("elementLocator", "sresult_panel_downloadlink"))
+    
+    
     def click_open_close_all_button(self):
         locator_open_close_toggle_tag = self.loc_split(self.open_close_toggle_tag)
         assert self.click_element(locator_open_close_toggle_tag)
@@ -106,24 +98,18 @@ class product_page(base_page):
     def get_panel_title(self):
         result_list = []
         link_list = []
-        locator_sresult_panel = self.loc_split(self.sresult_panel)
-        locator_detail_driver_child = self.loc_split(self.detail_driver_child)
-        locator_detail_driver_gchild = self.loc_split(self.detail_driver_gchild)
-        locator_detail_driver_name = self.loc_split(self.detail_driver_name)
+        panel_name_list = self.get_element(self.sresult_panel_name,multi=True)
+        panel_link_list = self.get_element(self.sresult_panel_downloadlink,multi=True)
 
-        panel_list = self.get_element(locator_sresult_panel,multi=True)
-        for i in panel_list:
-            panel_context = i.text
-            panel_title = panel_context.split("(")[0].strip(' ')
-            result_list.append(panel_title)
-            panel_child = self.get_element(locator_detail_driver_child,element_driver=i)
-            panel_gchild =  self.get_element(locator_detail_driver_gchild,element_driver=i) 
-            driver_name = self.get_element(locator_detail_driver_name,element_driver=panel_child) 
-            self.driver.execute_script("arguments[0].scrollIntoView();", driver_name)
-            link_list.append(panel_child.get_attribute('href'))
-            driver_name.click()
-        #    link_list.append(panel_child.get_attribute('href'))
+        for link,name in zip(panel_link_list,panel_name_list):
+
+            panel_context = name.text
+            #panel_title = panel_context.split("(")[0].strip(' ')
+            result_list.append(panel_context.replace('\n', '').strip(r".a{fill:#0096d6;}\n"))
+
+            assert self.click_element(False,element = name)
             
-            break
-                
-        return link_list
+            panel_link_context = link.get_attribute('href')
+            result_list.append(panel_link_context)           
+
+        return result_list

@@ -1,8 +1,8 @@
-produc_name,os_platform,os_version,driver_type,driver_name,driver_link
-M479,Windows,Windows 10 (32-bit),,,
-M479,Windows,Windows 10 (64-bit),,,
+product_name,os_platform,os_version,driver_type,driver_name,driver_link
+M479,Windows,Windows 10 (32-bit),,HP?Color?LaserJet?Pro?MFP?M478-M479?Series?Firmware?Update?Utility,https://ftp.hp.com/pub/softlib/software13/FW_CPE_Commercial/M478-M479_MA/HP_Color_LaserJet_Pro_M479_series_FW_002_1924A.exe
+M479,Windows,Windows 10 (64-bit),,Readiris Pro 16 for HP,https://ftp.hp.com/pub/softlib/readiris/Readiris16ProHPWin.zip
 M479,Windows,Windows 8.1 (32-bit),,,
-M479,Windows,Windows 8.1 (64-bit),,,
+M479,Windows,Windows 8.1 (64-bit),Readiris Pro 16 for HP,https://ftp.hp.com/pub/softlib/readiris/Readiris16ProHPWin.zip
 M479,Windows,Windows 8 (32-bit),,,
 M479,Windows,Windows 8 (64-bit),,,
 M479,Windows,Windows 7 (32-bit),,,

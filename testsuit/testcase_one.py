@@ -12,6 +12,7 @@ class test_page(product_page,guide_page):
 
 
 if __name__ == "__main__":
+
     with test_page() as tp:
         # tp.input_product_name("M479")
         # tp.click_search_button()
@@ -20,7 +21,11 @@ if __name__ == "__main__":
         # print(p)
         # print(v)
         tp.click_open_close_all_button()
-        g= tp.get_panel_title()
-        p.pprint(g)
-       
+        k= tp.get_panel_title()
+
+    for t in k[::2]:
+        p.pprint(t)
+    for t in k[1::2]:
+        p.pprint(t)   
+    
 
