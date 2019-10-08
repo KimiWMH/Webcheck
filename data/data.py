@@ -22,5 +22,5 @@ def get_test_data(file_name=r'checklist.csv'):
 
     return test_data
 
-e = get_test_data()
-p.pprint(e)
+# e = get_test_data()
+# p.pprint(e)
