@@ -27,6 +27,7 @@ class guide_page(base_page):
 
     def input_product_name(self,input_text):   
         assert self.set_text(self.locator_input_searchbox,input_text) 
+        self.wait(5)
 
     def click_search_button(self):
         assert self.click_element(self.locator_button_submit)

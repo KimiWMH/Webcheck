@@ -1,0 +1,4 @@
+/base/__pycache__/*
+/data/__pycache__/*
+/pageobjects/__pycache__/*
+/testsuit/__pycache__/*

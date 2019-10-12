@@ -36,17 +36,26 @@ class product_page(base_page):
         assert self.click_element(self.locator_os_platform_head)
 
         temp_platform_list = self.get_element(self.locator_os_platform_list)
+        tag = False
         for i in self.get_element(self.locator_os_platform_list_value,element_driver=temp_platform_list,multi=True):
             if i.text == platform:
                 i.click()
+                tag = True
+        if tag:
+            assert self.click_element(self.locator_os_version_head)
+        else:
+            raise ValueError("could not find os platform") 
 
-        assert self.click_element(self.locator_os_version_head)
+        tag = False
         temp_version_list = self.get_element(self.locator_os_version_list)
         for i in self.get_element(self.locator_os_version_list_value,element_driver=temp_version_list,multi=True):
             if i.text == version:
                 i.click()
-
-        assert self.click_element(self.locator_os_submit_button)
+                tag = True
+        if tag:
+            assert self.click_element(self.locator_os_submit_button)
+        else:
+            raise ValueError("could not find os version") 
 
     def get_os_list_context(self):
         platform = []
@@ -72,19 +81,22 @@ class product_page(base_page):
 
     def get_panel_title(self):
         result_list = []
-        link_list = []
+        n = 0
         panel_name_list = self.get_element(self.sresult_panel_name,multi=True)
         panel_link_list = self.get_element(self.sresult_panel_downloadlink,multi=True)
-        for link,name in zip(panel_link_list,panel_name_list):
+
+        for name in panel_link_list:
+            panel_context = name.get_attribute('href')
+            result_list.append(panel_context) 
+
+        for name in panel_name_list:
             panel_context = name.text
-            #panel_title = panel_context.split("(")[0].strip(' ')
-            result_list.append(panel_context.replace('\n', '').strip(r".a{fill:#0096d6;}\n"))
-            assert self.click_element(False,element = name)
-            panel_link_context = link.get_attribute('href')
-            result_list.append(panel_link_context)          
+            result_list.insert(n,panel_context.replace('\n', '').strip(r".a{fill:#0096d6;}\n"))
+            assert self.click_element(False,element = name)   
+            n+=4
+
         return result_list
 
-    def get_hiden_downlink(self):
         result_list = []
         link_list = []
         panel_name_list = self.get_element(self.sresult_panel_name,multi=True)

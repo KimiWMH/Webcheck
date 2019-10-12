@@ -16,11 +16,8 @@ def get_test_data(file_name=r'checklist.csv'):
     df = df.fillna(value="Skip")
     for i in df.index.values:
         row_data=df.loc[i,
-        ['produc_name','os_platform','os_version','driver_type','driver_name','driver_link']
+        ['product_name','os_platform','os_version','driver_name','driver_link_header','driver_link_context']
         ].to_dict()
         test_data.append(row_data)
 
     return test_data
-
-# e = get_test_data()
-# p.pprint(e)

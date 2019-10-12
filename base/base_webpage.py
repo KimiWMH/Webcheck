@@ -55,10 +55,10 @@ class base_page(broswer_engine):
         loc_iter = iter(loc.items())
         k,v = next(loc_iter)
         self.locator = (_LOCATOR_MAP[k], v)
-        print(self.locator)
+        # print(self.locator)
         if multi:  
             try:
-                WebDriverWait(_driver ,wait_time).until(EC.visibility_of(_driver.find_elements(*self.locator)[0]))
+                WebDriverWait(_driver ,wait_time).until(EC.visibility_of(_driver.find_elements(*self.locator)[1]))
                 return _driver .find_elements(*self.locator)
             except NoSuchElementException as e:
                 raise ValueError('Invaild locator') from e          
