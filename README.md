@@ -3,43 +3,12 @@
 
 Keyword：`Python` `Selenium` `Pytest` `Page Object`
 
-## Environment Required
-
-
-
-## Structure：
-├── base
+## What is webcheck?
     
-│   ├──base_browser
+    Webcheck is based on selenium with page object model.
     
-│   ├──base_webpage
+    What is a Page Object?
     
-        Wrapper web element,methods and base page.
+    An excerpt from the Selenium Wiki
     
-├── config
-   
-│   ├──config.ini
-   
-│   ├──locator.ini 
-   
-           Store config files
-   
-├── drivers
-    
-│   ├──chromedriver
-    
-        store broswer drivers
-    
-├── pageobjects
-
-│   ├──baidu_page.py
-    
-│   ├──guide_page.py
-    
-│   ├──product_page.py
-    
-        Page Objects
-    
-├──  testsuit
-    
-    test case for automation 
+    *Within your web app's UI there are areas that your tests interact with. A Page Object simply models these as objects within the test code. This reduces the amount of duplicated code and means that if the UI changes, the fix need only be applied in one place.*
