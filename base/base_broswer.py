@@ -33,6 +33,7 @@ class broswer_engine():
         
         self.browser = config.get("browserType", "browserName")
         self.url =  config.get("testServer", "URL")
+        # Extend more browser type
         if self.browser  == "Firefox":
             self.driver = webdriver.Firefox()
         elif self.browser  == "Chrome":

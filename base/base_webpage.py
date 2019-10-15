@@ -36,7 +36,14 @@ class base_page(broswer_engine):
 
     def get_element(self,loc,element_driver = False,multi = False,wait_time =30):
         """Get the element/elements from web
-         
+        :args element_driver: `bool`
+            default args is browser driver
+            but sometime we need locate the element by another element
+            at that time user can pass arg into it
+        :args mult: `bool`
+            return single element or multi
+        :args wait_time: `int`
+            time script will wait before throwing TimeError exception
         :param multi:  `bool`
             return elements or element
         :param loc: `dict`
@@ -70,8 +77,9 @@ class base_page(broswer_engine):
                 raise ValueError('Invaild locator') from e  
 
     def click_element(self,locator,element = None,wait_seconds = 2):
-        """
-        click the element then wait 
+        """Moving to elemen before clicking the element.Then wait for a moment 
+
+
         """
         result_flag = False
         if not element :
@@ -94,6 +102,7 @@ class base_page(broswer_engine):
         """
         Clear the text field before filling in.
         """
+
         text_field = None
         try:
             text_field = self.get_element(locator)
@@ -142,4 +151,7 @@ class base_page(broswer_engine):
             return result_flag
 
     def loc_split(self,raw_loc):
+        """
+        split the locator before using it
+        """
         return {raw_loc.split(",")[0].strip('"'):raw_loc.split(",")[1].strip('"')}
